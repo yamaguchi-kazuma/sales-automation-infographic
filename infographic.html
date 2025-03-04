@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>営業準備自動化システム</title>
+    <style>
+        body {
+            font-family: 'Hiragino Kaku Gothic Pro', 'Meiryo', sans-serif;
+            background-color: #f9f7f2;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 15px;
+        }
+        
+        .intro {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 1.2em;
+            color: #555;
+            background-color: #ecf0f1;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 5px solid #3498db;
+        }
+        
+        .methods {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .method {
+            flex: 1;
+            min-width: 300px;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            position: relative;
+            border-top: 5px solid;
+        }
+        
+        .method-1 {
+            border-top-color: #3498db;
+        }
+        
+        .method-2 {
+            border-top-color: #2ecc71;
+        }
+        
+        .method-3 {
+            border-top-color: #9b59b6;
+        }
+        
+        .method h2 {
+            color: #2c3e50;
+            text-align: center;
+            margin-top: 0;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed #ccc;
+        }
+        
+        .flow {
+            margin-top: 30px;
+        }
+        
+        .flow-step {
+            display: flex;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+        
+        .step-number {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .method-1 .step-number {
+            background-color: #3498db;
+        }
+        
+        .method-2 .step-number {
+            background-color: #2ecc71;
+        }
+        
+        .method-3 .step-number {
+            background-color: #9b59b6;
+        }
+        
+        .step-content {
+            flex: 1;
+            background-color: #f8f9fa;
+            padding: 12px 15px;
+            border-radius: 8px;
+            position: relative;
+        }
+        
+        .method-1 .step-content {
+            border-left: 3px solid #3498db;
+        }
+        
+        .method-2 .step-content {
+            border-left: 3px solid #2ecc71;
+        }
+        
+        .method-3 .step-content {
+            border-left: 3px solid #9b59b6;
+        }
+        
+        .flow-arrow {
+            display: flex;
+            justify-content: center;
+            margin: 10px 0;
+            color: #95a5a6;
+            font-size: 24px;
+        }
+        
+        .pros-cons {
+            margin-top: 25px;
+            display: flex;
+            gap: 15px;
+        }
+        
+        .pros, .cons {
+            flex: 1;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        
+        .pros {
+            background-color: rgba(46, 204, 113, 0.1);
+            border-left: 3px solid #2ecc71;
+        }
+        
+        .cons {
+            background-color: rgba(231, 76, 60, 0.1);
+            border-left: 3px solid #e74c3c;
+        }
+        
+        .pros h3, .cons h3 {
+            margin-top: 0;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+        }
+        
+        .pros h3:before {
+            content: "✓";
+            color: #2ecc71;
+            margin-right: 8px;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        
+        .cons h3:before {
+            content: "✗";
+            color: #e74c3c;
+            margin-right: 8px;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        
+        .pros ul, .cons ul {
+            margin: 0;
+            padding-left: 25px;
+        }
+        
+        .header-icon {
+            display: inline-block;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+        
+        .comparison {
+            margin-top: 50px;
+            background-color: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        }
+        
+        .comparison h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-top: 0;
+            border-bottom: 2px dashed #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        
+        .comparison-table th, .comparison-table td {
+            border: 1px solid #ddd;
+            padding: 12px 15px;
+            text-align: left;
+        }
+        
+        .comparison-table th {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        .rating {
+            display: flex;
+        }
+        
+        .star {
+            color: #f1c40f;
+            margin-right: 3px;
+        }
+        
+        .empty-star {
+            color: #ccc;
+            margin-right: 3px;
+        }
+        
+        .conclusion {
+            margin-top: 50px;
+            text-align: center;
+            padding: 25px;
+            background-color: #3498db;
+            color: white;
+            border-radius: 10px;
+            position: relative;
+        }
+        
+        .hand-drawn {
+            position: relative;
+        }
+        
+        .hand-drawn:after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -5px;
+            height: 3px;
+            background-color: currentColor;
+            opacity: 0.5;
+            border-radius: 50%;
+        }
+        
+        .note {
+            position: absolute;
+            transform: rotate(-5deg);
+            background-color: #f1c40f;
+            padding: 15px;
+            width: 200px;
+            box-shadow: 3px 3px 10px rgba(0,0,0,0.2);
+            font-size: 0.9em;
+            z-index: 10;
+        }
+        
+        .note-1 {
+            top: 100px;
+            right: 50px;
+        }
+        
+        .note-2 {
+            bottom: 150px;
+            left: 50px;
+            transform: rotate(3deg);
+            background-color: #e74c3c;
+            color: white;
+        }
+        
+        .note:before {
+            content: "";
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 0 15px 15px;
+            border-style: solid;
+            border-color: transparent transparent currentColor;
+        }
+        
+        .icon-container {
+            display: flex;
+            justify-content: center;
+            margin: 30px 0;
+        }
+        
+        .icon-box {
+            text-align: center;
+            width: 120px;
+            margin: 0 15px;
+        }
+        
+        .icon {
+            width: 80px;
+            height: 80px;
+            background-color: #ecf0f1;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            font-size: 36px;
+            color: #3498db;
+        }
+        
+        .method-1 .icon {
+            color: #3498db;
+        }
+        
+        .method-2 .icon {
+            color: #2ecc71;
+        }
+        
+        .method-3 .icon {
+            color: #9b59b6;
+        }
+        
+        .doodle {
+            position: absolute;
+            opacity: 0.1;
+            z-index: -1;
+            transform: rotate(-10deg);
+        }
+        
+        .doodle-1 {
+            top: 10%;
+            left: 10%;
+            font-size: 80px;
+        }
+        
+        .doodle-2 {
+            bottom: 20%;
+            right: 15%;
+            font-size: 100px;
+        }
+        
+        .method-diagram {
+            margin: 25px 0;
+            border: 2px dashed #ccc;
+            padding: 20px;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .diagram-item {
+            background-color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin: 8px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            width: 80%;
+            position: relative;
+            text-align: center;
+        }
+        
+        .method-1 .diagram-item {
+            border-left: 3px solid #3498db;
+        }
+        
+        .method-2 .diagram-item {
+            border-left: 3px solid #2ecc71;
+        }
+        
+        .method-3 .diagram-item {
+            border-left: 3px solid #9b59b6;
+        }
+        
+        .diagram-arrow {
+            font-size: 24px;
+            margin: 5px 0;
+            color: #95a5a6;
+        }
+        
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+            justify-content: center;
+        }
+        
+        .tag {
+            background-color: #ecf0f1;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            color: #7f8c8d;
+        }
+        
+        .method-1 .tag {
+            background-color: rgba(52, 152, 219, 0.1);
+            color: #3498db;
+        }
+        
+        .method-2 .tag {
+            background-color: rgba(46, 204, 113, 0.1);
+            color: #2ecc71;
+        }
+        
+        .method-3 .tag {
+            background-color: rgba(155, 89, 182, 0.1);
+            color: #9b59b6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="doodle doodle-1">🤖</div>
+        <div class="doodle doodle-2">📊</div>
+        
+        <h1>営業準備自動化システム構築図解</h1>
+        
+        <div class="intro">
+            インサイドセールスの事前準備を自動化し、法人情報を自動収集するシステムの構築方法を図解。<br>
+            企業名から求人情報や採用担当者情報を効率的に収集し、接触率アップを実現します。
+        </div>
+        
+        <div class="methods">
+            <div class="method method-1">
+                <h2>
+                    <span class="header-icon">📝</span>
+                    方法1: Google Apps Script + AI API
+                </h2>
+                
+                <div class="tags">
+                    <span class="tag">Google スプレッドシート</span>
+                    <span class="tag">Apps Script</span>
+                    <span class="tag">Claude API</span>
+                    <span class="tag">自動化</span>
+                </div>
+                
+                <div class="method-diagram">
+                    <div class="diagram-item">スプレッドシート<br>(企業名リスト)</div>
+                    <div class="diagram-arrow">↓</div>
+                    <div class="diagram-item">Google Apps Script<br>で自動処理</div>
+                    <div class="diagram-arrow">↓</div>
+                    <div class="diagram-item">Claude/GPT API<br>で情報収集</div>
+                    <div class="diagram-arrow">↓</div>
+                    <div class="diagram-item">スプレッドシートに<br>結果を自動入力</div>
+                </div>
+                
+                <div class="flow">
+                    <div class="flow-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            法人名リストをGoogleスプレッドシートに準備
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            Google Apps Scriptで自動処理スクリプトを作成
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            AI APIと連携して法人情報を収集
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            収集結果をスプレッドシートに自動出力
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h3>メリット</h3>
+                        <ul>
+                            <li>Googleツールだけで完結</li>
+                            <li>プログラミング知識が最小限で済む</li>
+                            <li>導入・運用コストが低い</li>
+                            <li>既存のスプレッドシートとの親和性</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h3>デメリット</h3>
+                        <ul>
+                            <li>処理速度に制限あり</li>
+                            <li>複雑な処理は難しい</li>
+                            <li>大量データには不向き</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="method method-2">
+                <h2>
+                    <span class="header-icon">🐍</span>
+                    方法2: Python + Selenium + AI API
+                </h2>
+                
+                <div class="tags">
+                    <span class="tag">Python</span>
+                    <span class="tag">Selenium</span>
+                    <span class="tag">Web スクレイピング</span>
+                    <span class="tag">AI API</span>
+                </div>
+                
+                <div class="method-diagram">
+                    <div class="diagram-item">Excelファイル<br>(企業名リスト)</div>
+                    <div class="diagram-arrow">↓</div>
+                    <div class="diagram-item">Pythonスクリプトで<br>情報収集</div>
+                    <div class="diagram-arrow">↓</div>
+                    <div class="diagram-item">Seleniumで<br>Webサイト自動閲覧</div>
+                    <div class="diagram-arrow">↓</div>
+                    <div class="diagram-item">Claude/GPT APIで<br>情報分析</div>
+                    <div class="diagram-arrow">↓</div>
+                    <div class="diagram-item">結果をExcelに<br>自動出力</div>
+                </div>
+                
+                <div class="flow">
+                    <div class="flow-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            Pythonスクリプトで企業リストExcelを読み込み
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            Seleniumで企業Webサイトを自動検索・閲覧
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            AI APIを使って収集した情報を分析・要約
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            結果をExcelファイルに出力・保存
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h3>メリット</h3>
+                        <ul>
+                            <li>高度なカスタマイズが可能</li>
+                            <li>大量データ処理に強い</li>
+                            <li>Webサイト情報も収集可能</li>
+                            <li>処理速度が速い</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h3>デメリット</h3>
+                        <ul>
+                            <li>プログラミング知識が必要</li>
+                            <li>サーバー等の実行環境が必要</li>
+                            <li>構築・保守コストが高い</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="method method-3">
+                <h2>
+                    <span class="header-icon">⚙️</span>
+                    方法3: Power Automate + Microsoft 365 + AI
+                </h2>
+                
+                <div class="tags">
+                    <span class="tag">Power Automate</span>
+                    <span class="tag">Microsoft 365</span>
+                    <span class="tag">ノーコード開発</span>
+                    <span class="tag">AI連携</span>
+                </div>
+                
+                <div class="method-diagram">
+                    <div class="diagram-item">Excel Online<br>(企業名リスト)</div>
+                    <div class="diagram-arrow">↓</div>
+                    <div class="diagram-item">Power Automate<br>フロー作成</div>
+                    <div class="diagram-arrow">↓</div>
+                    <div class="diagram-item">OpenAI/Claude<br>コネクター</div>
+                    <div class="diagram-arrow">↓</div>
+                    <div class="diagram-item">結果をExcelに<br>自動出力</div>
+                </div>
+                
+                <div class="flow">
+                    <div class="flow-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            Microsoft 365でExcelリストを準備
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            Power Automateで自動処理フローを構築
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            OpenAIコネクターで情報収集・分析
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            収集結果をExcelに自動出力
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h3>メリット</h3>
+                        <ul>
+                            <li>プログラミング不要（ノーコード）</li>
+                            <li>Microsoft環境との親和性</li>
+                            <li>視覚的に処理フローを設計可能</li>
+                            <li>Office 365連携が容易</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h3>デメリット</h3>
+                        <ul>
+                            <li>Microsoft 365ライセンスが必要</li>
+                            <li>カスタマイズの自由度に制限</li>
+                            <li>複雑な処理には不向き</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="comparison">
+            <h2>3つの方法の比較</h2>
+            
+            <table class="comparison-table">
+                <tr>
+                    <th>比較項目</th>
+                    <th>方法1: Google Apps Script</th>
+                    <th>方法2: Python + Selenium</th>
+                    <th>方法3: Power Automate</th>
+                </tr>
+                <tr>
+                    <td>技術難易度</td>
+                    <td>
+                        <div class="rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="empty-star">★</span>
+                            <span class="empty-star">★</span>
+                            <span class="empty-star">★</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="empty-star">★</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="empty-star">★</span>
+                            <span class="empty-star">★</span>
+                            <span class="empty-star">★</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>実装コスト</td>
+                    <td>
+                        <div class="rating">
+                            <span class="star">★</span>
+                            <span class="empty-star">★</span>
+                            <span class="empty-star">★</span>
+                            <span class="empty-star">★</span>
+                            <span class="empty-star">★</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="empty-star">★</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="empty-star">★</span>
+                            <span class="empty-star">★</span>
+                            <span class="empty-star">★</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>処理能力</td>
+                    <td>
+                        <div class="rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="empty-star">★</span>
+                            <span class="empty-star">★</span>
+                            <span class="empty-star">★</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="empty-star">★</span>
+                            <span class="empty-star">★</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>カスタマイズ性</td>
+                    <td>
+                        <div class="rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="empty-star">★</span>
+                            <span class="empty-star">★</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="empty-star">★</span>
+                            <span class="empty-star">★</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>メンテナンス性</td>
+                    <td>
+                        <div class="rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="empty-star">★</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="empty-star">★</span>
+                            <span class="empty-star">★</span>
+                            <span class="empty-star">★</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="empty-star">★</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>スケーラビリティ</td>
+                    <td>
+                        <div class="rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="empty-star">★</span>
+                            <span class="empty-star">★</span>
+                            <span class="empty-star">★</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="rating">
+                            <span class="star">★</span>
+                            
